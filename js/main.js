@@ -64,7 +64,7 @@ const getWeather = async () => {
 
   const [latitude, longitude] = selectedCity.split(",");
 
-  const apiUrl = `http://www.7timer.info/bin/api.pl?lon=${latitude}&lat=${longitude}&product=civil&output=json`;
+  const apiUrl = `https://www.7timer.info/bin/api.pl?lon=${latitude}&lat=${longitude}&product=civil&output=json`;
 
   try {
     const response = await fetch(apiUrl);
