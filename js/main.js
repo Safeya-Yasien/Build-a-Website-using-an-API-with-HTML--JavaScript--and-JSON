@@ -81,53 +81,80 @@ const getWeather = async () => {
 };
 
 const displayWeather = (weatherData) => {
-  const weatherResults = document.getElementById("weatherResults");
-  weatherResults.innerHTML = ""; // Clear previous results
-
-  const initTime = weatherData.init;
-  const initDate = new Date(
-    initTime.slice(0, 4),
-    parseInt(initTime.slice(4, 6)) - 1,
-    initTime.slice(6, 8),
-    initTime.slice(8, 10),
-    initTime.slice(10, 12)
-  );
-
-  // Iterate over the dataseries
-  weatherData.dataseries.forEach((day) => {
-    // Calculate the time for this timepoint
-    const forecastDate = new Date(initDate);
-    forecastDate.setHours(forecastDate.getHours() + day.timepoint * 3); // Assuming timepoint is in 3-hour intervals
-
-    // Create a new div for each day's weather information
-    const weatherInfo = document.createElement("div");
-    weatherInfo.classList.add("weather-card"); // Add class for styling
-
-    // Format the weather data inside the box
-    weatherInfo.innerHTML = `
-          <div class="weather-header">
-            <h3>${forecastDate.toLocaleDateString()}</h3> <!-- Only show the date -->
-          </div>
-          <div class="weather-content">
-            <div class="weather-icon">
-              <span class="icon">${getWeatherIcon(day.prec_type)}</span>
-            </div>
-            <div class="temperature">
-              <span class="temp">${day.temp2m}°C</span>
-            </div>
-            <div class="description">
-              <p>${day.temp2m < 10 ? "Cold" : "Warm"}</p>
-            </div>
-            <div class="cloud-cover">
-              <p><strong>Cloud Cover:</strong> ${day.cloudcover}%</p>
-            </div>
-          </div>
-        `;
-
-    // Append the weather box to the results container
-    weatherResults.appendChild(weatherInfo);
-  });
-};
+    const weatherResults = document.getElementById("weatherResults");
+    weatherResults.innerHTML = "";
+  
+    const initTime = weatherData.init;
+    const initDate = new Date(
+      initTime.slice(0, 4),
+      parseInt(initTime.slice(4, 6)) - 1,
+      initTime.slice(6, 8),
+      initTime.slice(8, 10),
+      initTime.slice(10, 12)
+    );
+  
+    const currentDate = new Date();
+    const endDate = new Date(currentDate);
+    endDate.setDate(currentDate.getDate() + 7); // Set end date to 7 days from now
+  
+    // Initialize a counter to track days and a Set to track unique dates
+    let daysCounter = 0;
+    const displayedDates = new Set();
+  
+    // Iterate over the dataseries and filter out data for the next 7 days
+    weatherData.dataseries.forEach((day) => {
+      // Calculate the forecast date
+      const forecastDate = new Date(initDate);
+      forecastDate.setHours(forecastDate.getHours() + day.timepoint * 3); // 3-hour intervals
+  
+      // Check if the forecast date is within the next 7 days from the current date
+      if (forecastDate >= currentDate && forecastDate < endDate) {
+        const dateString = forecastDate.toLocaleDateString();
+  
+        // Check if this date has already been displayed
+        if (!displayedDates.has(dateString)) {
+          // Add the date to the Set to avoid duplicates
+          displayedDates.add(dateString);
+  
+          // Create a new div for each day's weather information
+          const weatherInfo = document.createElement("div");
+          weatherInfo.classList.add("weather-card"); // Add class for styling
+  
+          // Format the weather data inside the box
+          weatherInfo.innerHTML = `
+                  <div class="weather-header">
+                    <h3>${dateString}</h3> <!-- Only show the date -->
+                  </div>
+                  <div class="weather-content">
+                    <div class="weather-icon">
+                      <span class="icon">${getWeatherIcon(day.prec_type)}</span>
+                    </div>
+                    <div class="temperature">
+                      <span class="temp">${day.temp2m}°C</span>
+                    </div>
+                    <div class="description">
+                      <p>${day.temp2m < 10 ? "Cold" : "Warm"}</p>
+                    </div>
+                    <div class="cloud-cover">
+                      <p><strong>Cloud Cover:</strong> ${day.cloudcover}%</p>
+                    </div>
+                  </div>
+                `;
+  
+          // Append the weather box to the results container
+          weatherResults.appendChild(weatherInfo);
+  
+          // Increment the counter for the number of days displayed
+          daysCounter++;
+        }
+  
+        // Stop if we've already added 7 days of data
+        if (daysCounter >= 7) {
+          return;
+        }
+      }
+    });
+  };
 
 // Function to choose weather icon based on temperature
 const getWeatherIcon = (temp) => {
