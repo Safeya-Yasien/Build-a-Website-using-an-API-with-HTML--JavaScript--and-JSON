@@ -1,0 +1,133 @@
+body {
+  font-family: Arial, sans-serif;
+  text-align: center;
+  background: #f4f4f4;
+  margin: 0;
+  padding: 0;
+}
+
+.container {
+  background: white;
+  width: 40%;
+  margin: 50px auto;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+  color: #333;
+}
+
+label {
+  font-size: 18px;
+  font-weight: bold;
+}
+
+select,
+button {
+  margin-top: 10px;
+  padding: 10px;
+  font-size: 16px;
+}
+
+button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+/* Styling for the weather result container */
+#weatherResults {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    gap: 20px;
+    margin-top: 20px;
+    padding: 20px;
+  }
+  
+  /* Style each weather card */
+  .weather-card {
+    background-color: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    width: 260px;
+    text-align: center;
+    color: #333;
+    transition: transform 0.3s ease-in-out;
+    cursor: pointer;
+    margin-bottom: 20px;
+    padding: 15px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  
+  /* Hover effect for the weather card */
+  .weather-card:hover {
+    transform: scale(1.05);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+  }
+  
+  /* Styling for the header (date) */
+  .weather-card .weather-header h3 {
+    font-size: 18px;
+    margin-bottom: 10px;
+    color: #333;
+    font-weight: bold;
+  }
+  
+  /* Styling for the weather icon */
+  .weather-card .weather-icon {
+    font-size: 36px;
+    margin-bottom: 15px;
+  }
+  
+  /* Styling for the temperature */
+  .weather-card .temperature .temp {
+    font-size: 24px;
+    font-weight: bold;
+    color: #FF8C00;
+    margin-bottom: 10px;
+  }
+  
+  /* Styling for the weather description */
+  .weather-card .description p {
+    font-size: 18px;
+    font-weight: 400;
+    color: #555;
+    margin-bottom: 10px;
+  }
+  
+  /* Styling for the cloud cover percentage */
+  .weather-card .cloud-cover p {
+    font-size: 16px;
+    color: #888;
+    font-weight: 400;
+  }
+  
+  /* Add a subtle border-top for visual separation */
+  .weather-card .weather-header {
+    border-bottom: 2px solid #f1f1f1;
+    padding-bottom: 10px;
+  }
+  
+  /* Responsive adjustments */
+  @media (max-width: 768px) {
+    #weatherResults {
+      flex-direction: column;
+      align-items: center;
+    }
+  
+    .weather-card {
+      width: 90%;
+    }
+  }
+  
